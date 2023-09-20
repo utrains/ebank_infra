@@ -1,10 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
-provider "aws" {
-  region = var.region
-}
-
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
@@ -25,29 +18,6 @@ resource "aws_db_subnet_group" "ebanking" {
 
   tags = {
     Name = "ebanking"
-  }
-}
-
-resource "aws_security_group" "rds" {
-  name   = "ebanking_rds"
-  vpc_id = module.vpc.vpc_id
-
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "ebanking_rds"
   }
 }
 
